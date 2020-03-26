@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+  winbox:
+    build: .
+    restart: 'unless-stopped'
+    ports:
+      - 5900:5900
+    environment:
+      - VNC_PASSWORD=password
+    volumes:
+      - ./.docker-volumes/root:/root
+      - ./.docker-volumes/Xauthority:/Xauthority
