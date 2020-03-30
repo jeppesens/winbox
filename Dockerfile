@@ -3,15 +3,20 @@ FROM ubuntu:18.04
 # Install wine
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
-## Fix dependency hell
 RUN dpkg --add-architecture i386
 RUN apt-get autoclean && apt-get clean -y && apt-get autoremove -y
+## Fix dependency hell
 RUN apt-get install -y libgnutls30 libldap-common libgpg-error0 libxml2 libasound2-plugins libsdl2-2.0-0 libfreetype6 libdbus-1-3 libsqlite3-0 \
-    wget gnupg gnupg1 gnupg2 software-properties-common
+    wget gnupg gnupg1 gnupg2 software-properties-common pulseaudio
 RUN wget -nc https://dl.winehq.org/wine-builds/winehq.key && apt-key add winehq.key
 RUN apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
 RUN apt-add-repository ppa:cybermax-dexter/sdl2-backport
 RUN apt update && apt install -y --install-recommends winehq-stable
+# Installing Winetricks
+RUN wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
+    chmod +x winetricks && \
+    cp winetricks /usr/local/bin
+
 
 
 # Installing VNC
